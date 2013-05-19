@@ -1,0 +1,3 @@
+[submodule "node-bisection"]
+	path = node-bisection
+	url = git://github.com/jasonwiener/node-bisection.git
