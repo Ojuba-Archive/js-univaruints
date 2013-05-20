@@ -47,7 +47,6 @@ var univaruints=function(){
 				payload*=256;
 				payload+= s.charCodeAt(i);
 			}
-			console.log(payload);
 			// ( ((o & mask)<<  (n*8)  )>>>0)
 			return [n+1, shifts[n] + ( ( (o & mask) * Math.pow(2 , n*8) ) + payload )];
 		} else {
@@ -76,11 +75,21 @@ var univaruints=function(){
     	}
 	};
 
-	self.decode=function() {
-
+	self.decode=function(s) {
+	  var a,l=[], n=s.length, offset=0;
+	  while(offset<n) {
+	    a=self.decode_single(s.substr(offset));
+	    offset+=a[0]
+	    l.push(a[1]);
+	  }
+	  return l;
 	};
-	self.encode=function() {
-
+	self.encode=function(l) {
+	  var s='',i=0,n=l.length;
+	  for(;i<n;++i) {
+	    s+=self.encode_single(l[i]);
+	  }
+	  return s;
 	};
 	return self;
 }();
