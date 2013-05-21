@@ -20,6 +20,38 @@ var univaruints=function(){
 	var shifts2=shifts.slice(2);
 	var pads={1:'\0', 2:'\0\0',3:'\0\0\0'};
 
+    var bisect_right7=function(a,x){
+	if (x<a[3]) {
+		if (x<a[1]) {
+			if (x<a[0]) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else {
+			if (x<a[2]) {
+				return 2;
+			} else {
+				return 3;
+			}			
+		}
+	} else {
+		if (x<a[5]) {
+			if (x<a[4]) {
+				return 4;
+			} else {
+				return 5;
+			}
+		} else {
+			if (x<a[6]) {
+				return 6;
+			} else {
+				return 7;
+			}			
+		}
+	}
+	}
+
     // based on idea from http://updates.html5rocks.com/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
     var ab2str=function(buf) {
        return String.fromCharCode.apply(null, new Uint8Array(buf));
@@ -57,8 +89,7 @@ var univaruints=function(){
 
     self.encode_single=function(v) {
     	if (v >= 128) {
-    		var bisect = new bisection();
-    		var n=bisect.bisect_right(shifts2, v)+1;
+    		var n=bisect_right7(shifts2, v)+1;
     		var offset=shifts[n];
     		v-=offset;
     		// NOTE: it seems there is no Uint64 in javascript, even 1<<32 would give 1
